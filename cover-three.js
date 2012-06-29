@@ -35,10 +35,9 @@ var c3 = (function () {
     return JSON.parse(s);
   }
 
-  function init() {
+  function init(newGame) {
     c3.game.addResetNotification(c3.board.reset);
-    c3.game.addResetNotification(c3.ui.run);
-    c3.game.reset();
+    c3.game.set(newGame);
   }
 
   return {
@@ -200,26 +199,26 @@ c3.game = (function (app) {
     }
   }
 
-  function resetGame() {
+  function getNew() {
     var emptySquare = c3.square(app.none, app.none),
         i;
 
     for (i = 0; i < 9; i += 1) {
       squares[i] = emptySquare;
     }
-    setGame({
+    return {
       type:type,
       playerId:app.player1,
       squares:squares,
-      over:over,
-      winningPlayerId:winningPlayerId
-    });
+      over:false,
+      winningPlayerId:c3.none
+    };
   }
 
   return {
     get:getGame,
     set:setGame,
-    reset:resetGame,
+    getNew:getNew,
     saveCurrentPlayerId:saveCurrentPlayerId,
     saveSquare:saveSquare,
     addResetNotification:addResetNotification,
@@ -231,13 +230,7 @@ c3.game = (function (app) {
 
 c3.piece = function (size, playerId) {
   "use strict";
-  var type = "piece",
-      content,
-      className;
-
-  function getClassName() {
-    return c3.isNone(size) ? "" : "piece-" + size + " player-" + playerId;
-  }
+  var type = "piece";
 
   function equals(other) {
     c3.ensureType(type, other);
@@ -249,11 +242,8 @@ c3.piece = function (size, playerId) {
     return size === c3.none ? c3.smallPiece : c3.largePiece;
   }
 
-  className = getClassName();
-
   return {
     type:type,
-    className:className,
     size:size,
     playerId:playerId,
     equals:equals,

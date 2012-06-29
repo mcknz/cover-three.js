@@ -9,23 +9,32 @@ describe("App", function () {
 
 describe("piece", function () {
   "use strict";
-  it("has no class name when none", function () {
-    expect(help.getNoPiece().className).toBe("");
+  it("has no playerId when no piece", function () {
+    expect(c3.isNone(help.getNoPiece().playerId)).toBe(true);
   });
-  it("has no player class name when none", function () {
-    expect(help.getNoPiece().className).not.toContain("playerId");
+  it("has correct playerId when player 1 piece", function () {
+    expect(help.getPlayer1SmallPiece().playerId).toBe(c3.player1);
   });
-  it("has small class name when small", function () {
-    expect(help.getPlayer1SmallPiece().className).toContain("piece-0");
+  it("has correct playerId when player 2 piece", function () {
+    expect(help.getPlayer2SmallPiece().playerId).toBe(c3.player2);
   });
-  it("has large class name when large", function () {
-    expect(help.getPlayer1LargePiece().className).toContain("piece-1");
+  it("has small size when small piece", function () {
+    expect(help.getPlayer1SmallPiece().size).toBe(c3.smallPiece);
   });
-  it("has player 1 class name when player 1", function () {
-    expect(help.getPlayer1LargePiece().className).toContain("player-0");
+  it("has large size when large piece", function () {
+    expect(help.getPlayer1LargePiece().size).toBe(c3.largePiece);
   });
-  it("has player 2 class name when player 2", function () {
-    expect(help.getPlayer2LargePiece().className).toContain("player-1");
+  it("equals player 1 small piece when player 1 small piece", function () {
+    expect(help.getPlayer1SmallPiece().equals(help.getPlayer1SmallPiece())).toBeTruthy();
+  });
+  it("equals player 2 small piece when player 2 small piece", function () {
+    expect(help.getPlayer2SmallPiece().equals(help.getPlayer2SmallPiece())).toBeTruthy();
+  });
+  it("equals player 1 large piece when player 1 large piece", function () {
+    expect(help.getPlayer1LargePiece().equals(help.getPlayer1LargePiece())).toBeTruthy();
+  });
+  it("equals player 2 large piece when player 2 large piece", function () {
+    expect(help.getPlayer2LargePiece().equals(help.getPlayer2LargePiece())).toBeTruthy();
   });
 });
 
@@ -42,8 +51,7 @@ describe("playerId", function () {
 describe("board", function () {
   "use strict";
   beforeEach(function () {
-    c3.game.addResetNotification(c3.board.reset);
-    c3.game.reset();
+    c3.init(c3.game.getNew());
   });
   it("has square one empty on start", function () {
     expect(c3.board.getSquarePiece(0).equals(help.getNoPiece())).toBeTruthy();

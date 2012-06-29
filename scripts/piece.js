@@ -2,8 +2,7 @@
 
 c3.piece = function (size, playerId) {
   "use strict";
-  var type = "piece",
-      content;
+  var type = "piece";
 
   function equals(other) {
     c3.ensureType(type, other);
