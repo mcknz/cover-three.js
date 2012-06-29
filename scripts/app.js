@@ -35,10 +35,9 @@ var c3 = (function () {
     return JSON.parse(s);
   }
 
-  function init() {
+  function init(newGame) {
     c3.game.addResetNotification(c3.board.reset);
-    c3.game.addResetNotification(c3.ui.run);
-    c3.game.reset();
+    c3.game.set(newGame);
   }
 
   return {
